@@ -1,8 +1,8 @@
 package com.codingchallenge.capitalgainstaxcalculator;
 
 import com.codingchallenge.capitalgainstaxcalculator.domain.Operation;
+import com.codingchallenge.capitalgainstaxcalculator.domain.OperationResult;
 import com.codingchallenge.capitalgainstaxcalculator.domain.Portfolio;
-import com.codingchallenge.capitalgainstaxcalculator.domain.Tax;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,8 +21,8 @@ public class CapitalGainsTaxCalculator {
                 String line;
                 while ((line = reader.readLine()) != null) {
                     List<Operation> operations = parseJsonOperations(line);
-                    List<Tax> taxes = calculateCapitalGainsTax(operations);
-                    printAsJson(taxes);
+                    List<OperationResult> operationResults = calculateCapitalGainsTax(operations);
+                    printAsJson(operationResults);
                 }
             }
         } catch (IOException e) {
@@ -37,7 +37,7 @@ public class CapitalGainsTaxCalculator {
         });
     }
 
-    private static void printAsJson(List<Tax> taxes) throws JsonProcessingException {
+    private static void printAsJson(List<OperationResult> taxes) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         System.out.println(mapper.writeValueAsString(taxes));
     }
@@ -48,15 +48,15 @@ public class CapitalGainsTaxCalculator {
      * @param operations List of operations
      * @return List of taxes based on the provided operations
      */
-    private static List<Tax> calculateCapitalGainsTax(List<Operation> operations) {
-        List<Tax> taxes = new ArrayList<>();
+    private static List<OperationResult> calculateCapitalGainsTax(List<Operation> operations) {
+        List<OperationResult> operationResults = new ArrayList<>();
         Portfolio portfolio = new Portfolio();
 
         for (Operation operation : operations) {
-            Tax tax = portfolio.calculateTaxes(operation);
-            taxes.add(tax);
+            OperationResult operationResult = portfolio.performOperation(operation);
+            operationResults.add(operationResult);
         }
 
-        return taxes;
+        return operationResults;
     }
 }

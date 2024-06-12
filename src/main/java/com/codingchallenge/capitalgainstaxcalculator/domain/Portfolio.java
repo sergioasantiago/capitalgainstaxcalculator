@@ -11,7 +11,7 @@ public class Portfolio {
 
     private int totalShares = 0;
 
-    private double totalLoss = 0.0;
+    private double profit = 0.0;
 
     private BigDecimal averagePrice = BigDecimal.valueOf(0.0).setScale(2, RoundingMode.HALF_UP);
 
@@ -27,15 +27,16 @@ public class Portfolio {
      * @param operation the Operation object representing the transaction
      * @return a Tax object containing the calculated capital gains tax (0 if not applicable)
      */
-    public Tax calculateTaxes(Operation operation) {
-        double taxes = 0;
+    public OperationResult performOperation(Operation operation) {
         if (operation.getOperation().equals("buy")) {
-            buy(operation);
+            return buy(operation);
         } else if (operation.getOperation().equals("sell")) {
-            taxes = sell(operation);
+            return sell(operation);
         }
 
-        return new Tax(taxes);
+        OperationResult operationResult = new OperationResult();
+        operationResult.setError(OperationResultError.INVALID_OPERATION);
+        return operationResult;
     }
 
     /**
@@ -43,10 +44,11 @@ public class Portfolio {
      *
      * @param operation the Operation object representing the buy transaction
      */
-    private void buy(Operation operation) {
+    private OperationResult buy(Operation operation) {
         double doubleAveragePrice = calculateAveragePrice(operation.getQuantity(), operation.getUnitCost());
         averagePrice = BigDecimal.valueOf(doubleAveragePrice).setScale(2, RoundingMode.HALF_UP);
         totalShares += operation.getQuantity();
+        return new OperationResult();
     }
 
     /**
@@ -55,26 +57,34 @@ public class Portfolio {
      * @param operation the Operation object representing the sell transaction
      * @return the amount of capital gains tax calculated for the sell operation (0 if not taxable)
      */
-    private double sell(Operation operation) {
+    private OperationResult sell(Operation operation) {
+        OperationResult operationResult = new OperationResult();
+
+        if (totalShares < operation.getQuantity()) {
+            operationResult.setError(OperationResultError.MAX_STOCKS);
+            return operationResult;
+        }
+
         double taxes = 0;
 
         totalShares -= operation.getQuantity();
         double grossProfit = calculateGrossProfit(operation.getQuantity(), operation.getUnitCost());
-        totalLoss += grossProfit;
+        profit += grossProfit;
 
-        if (totalLoss > 0) {
-            double netProfit = totalLoss;
-            totalLoss = 0;
+        if (profit > 0) {
+            double netProfit = profit;
+            profit = 0;
 
             if (taxable(operation.getQuantity(), operation.getUnitCost())) {
-                taxes = calculateTaxes(netProfit);
+                taxes = performOperation(netProfit);
             }
         }
 
-        return taxes;
+        operationResult.setTax(new Tax(taxes));
+        return operationResult;
     }
 
-    private double calculateTaxes(double netProfit) {
+    private double performOperation(double netProfit) {
         return netProfit * TAX_RATE;
     }
 

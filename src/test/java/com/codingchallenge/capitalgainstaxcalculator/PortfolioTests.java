@@ -1,6 +1,7 @@
 package com.codingchallenge.capitalgainstaxcalculator;
 
 import com.codingchallenge.capitalgainstaxcalculator.domain.Operation;
+import com.codingchallenge.capitalgainstaxcalculator.domain.OperationResult;
 import com.codingchallenge.capitalgainstaxcalculator.domain.Portfolio;
 import com.codingchallenge.capitalgainstaxcalculator.domain.Tax;
 import org.junit.jupiter.api.Test;
@@ -18,8 +19,8 @@ class PortfolioTests {
                 new Operation("buy", 10.00, 100)
         );
 
-        List<Tax> expectedTaxes = List.of(
-                new Tax(0.0)
+        List<OperationResult> expectedTaxes = List.of(
+                new OperationResult(new Tax(0.0))
         );
 
         runTest(operations, expectedTaxes);
@@ -32,9 +33,9 @@ class PortfolioTests {
                 new Operation("sell", 5.00, 100)
         );
 
-        List<Tax> expectedTaxes = List.of(
-                new Tax(0.0),
-                new Tax(0.0)
+        List<OperationResult> expectedTaxes = List.of(
+                new OperationResult(new Tax(0.0)),
+                new OperationResult(new Tax(0.0))
         );
 
         runTest(operations, expectedTaxes);
@@ -48,10 +49,10 @@ class PortfolioTests {
                 new Operation("sell", 16.67, 15000)
         );
 
-        List<Tax> expectedTaxes = List.of(
-                new Tax(0.0),
-                new Tax(0.0),
-                new Tax(0.0)
+        List<OperationResult> expectedTaxes = List.of(
+                new OperationResult(new Tax(0.0)),
+                new OperationResult(new Tax(0.0)),
+                new OperationResult(new Tax(0.0))
         );
 
         runTest(operations, expectedTaxes);
@@ -65,10 +66,10 @@ class PortfolioTests {
                 new Operation("sell", 15.00, 50)
         );
 
-        List<Tax> expectedTaxes = List.of(
-                new Tax(0.0),
-                new Tax(0.0),
-                new Tax(0.0)
+        List<OperationResult> expectedTaxes = List.of(
+                new OperationResult(new Tax(0.0)),
+                new OperationResult(new Tax(0.0)),
+                new OperationResult(new Tax(0.0))
         );
 
         runTest(operations, expectedTaxes);
@@ -82,10 +83,10 @@ class PortfolioTests {
                 new Operation("sell", 5.00, 5000)
         );
 
-        List<Tax> expectedTaxes = List.of(
-                new Tax(0.0),
-                new Tax(10000),
-                new Tax(0.0)
+        List<OperationResult> expectedTaxes = List.of(
+                new OperationResult(new Tax(0.0)),
+                new OperationResult(new Tax(10000)),
+                new OperationResult(new Tax(0.0))
         );
 
         runTest(operations, expectedTaxes);
@@ -99,10 +100,10 @@ class PortfolioTests {
                 new Operation("sell", 15.00, 50)
         );
 
-        List<Tax> expectedTaxes = List.of(
-                new Tax(0.0),
-                new Tax(0.0),
-                new Tax(0.0)
+        List<OperationResult> expectedTaxes = List.of(
+                new OperationResult(new Tax(0.0)),
+                new OperationResult(new Tax(0.0)),
+                new OperationResult(new Tax(0.0))
         );
 
         Portfolio portfolio = new Portfolio();
@@ -116,9 +117,9 @@ class PortfolioTests {
         );
 
         expectedTaxes = List.of(
-                new Tax(0.0),
-                new Tax(10000),
-                new Tax(0.0)
+                new OperationResult(new Tax(0.0)),
+                new OperationResult(new Tax(10000)),
+                new OperationResult(new Tax(0.0))
         );
 
         runTest(portfolio, operations, expectedTaxes);
@@ -132,10 +133,10 @@ class PortfolioTests {
                 new Operation("sell", 20.00, 3000)
         );
 
-        List<Tax> expectedTaxes = List.of(
-                new Tax(0.0),
-                new Tax(0.0),
-                new Tax(1000.0)
+        List<OperationResult> expectedTaxes = List.of(
+                new OperationResult(new Tax(0.0)),
+                new OperationResult(new Tax(0.0)),
+                new OperationResult(new Tax(1000.0))
         );
 
         runTest(operations, expectedTaxes);
@@ -149,10 +150,10 @@ class PortfolioTests {
                 new Operation("sell", 15.00, 10000)
         );
 
-        List<Tax> expectedTaxes = List.of(
-                new Tax(0.0),
-                new Tax(0.0),
-                new Tax(0.0)
+        List<OperationResult> expectedTaxes = List.of(
+                new OperationResult(new Tax(0.0)),
+                new OperationResult(new Tax(0.0)),
+                new OperationResult(new Tax(0.0))
         );
 
         runTest(operations, expectedTaxes);
@@ -167,11 +168,11 @@ class PortfolioTests {
                 new Operation("sell", 25.00, 5000)
         );
 
-        List<Tax> expectedTaxes = List.of(
-                new Tax(0.0),
-                new Tax(0.0),
-                new Tax(0.0),
-                new Tax(10000.0)
+        List<OperationResult> expectedTaxes = List.of(
+                new OperationResult(new Tax(0.0)),
+                new OperationResult(new Tax(0.0)),
+                new OperationResult(new Tax(0.0)),
+                new OperationResult(new Tax(10000.0))
         );
 
         runTest(operations, expectedTaxes);
@@ -187,12 +188,12 @@ class PortfolioTests {
                 new Operation("sell", 25.00, 1000)
         );
 
-        List<Tax> expectedTaxes = List.of(
-                new Tax(0.0),
-                new Tax(0.0),
-                new Tax(0.0),
-                new Tax(0.0),
-                new Tax(3000.0)
+        List<OperationResult> expectedTaxes = List.of(
+                new OperationResult(new Tax(0.0)),
+                new OperationResult(new Tax(0.0)),
+                new OperationResult(new Tax(0.0)),
+                new OperationResult(new Tax(0.0)),
+                new OperationResult(new Tax(3000.0))
         );
 
         runTest(operations, expectedTaxes);
@@ -212,16 +213,16 @@ class PortfolioTests {
                 new Operation("sell", 30.00, 650)
         );
 
-        List<Tax> expectedTaxes = List.of(
-                new Tax(0.0),
-                new Tax(0.0),
-                new Tax(0.0),
-                new Tax(0.0),
-                new Tax(3000.0),
-                new Tax(0.0),
-                new Tax(0.0),
-                new Tax(3700.0),
-                new Tax(0.0)
+        List<OperationResult> expectedTaxes = List.of(
+                new OperationResult(new Tax(0.0)),
+                new OperationResult(new Tax(0.0)),
+                new OperationResult(new Tax(0.0)),
+                new OperationResult(new Tax(0.0)),
+                new OperationResult(new Tax(3000.0)),
+                new OperationResult(new Tax(0.0)),
+                new OperationResult(new Tax(0.0)),
+                new OperationResult(new Tax(3700.0)),
+                new OperationResult(new Tax(0.0))
         );
 
         runTest(operations, expectedTaxes);
@@ -236,28 +237,28 @@ class PortfolioTests {
                 new Operation("sell", 50.00, 10000)
         );
 
-        List<Tax> expectedTaxes = List.of(
-                new Tax(0.0),
-                new Tax(80000.0),
-                new Tax(0.0),
-                new Tax(60000.0)
+        List<OperationResult> expectedTaxes = List.of(
+                new OperationResult(new Tax(0.0)),
+                new OperationResult(new Tax(80000.0)),
+                new OperationResult(new Tax(0.0)),
+                new OperationResult(new Tax(60000.0))
         );
 
         runTest(operations, expectedTaxes);
     }
 
-    void runTest(List<Operation> operations, List<Tax> expectedTaxes) {
+    void runTest(List<Operation> operations, List<OperationResult> expectedTaxes) {
         Portfolio portfolio = new Portfolio();
         runTest(portfolio, operations, expectedTaxes);
     }
 
-    void runTest(Portfolio portfolio, List<Operation> operations, List<Tax> expectedTaxes) {
-        List<Tax> taxes = new ArrayList<>();
+    void runTest(Portfolio portfolio, List<Operation> operations, List<OperationResult> expectedTaxes) {
+        List<OperationResult> operationResults = new ArrayList<>();
 
         for (Operation operation : operations) {
-            taxes.add(portfolio.calculateTaxes(operation));
+            operationResults.add(portfolio.performOperation(operation));
         }
 
-        assertEquals(expectedTaxes, taxes);
+        assertEquals(expectedTaxes, operationResults);
     }
 }
